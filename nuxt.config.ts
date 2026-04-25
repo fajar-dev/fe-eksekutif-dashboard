@@ -4,14 +4,19 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
+
+  ssr: false,
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   css: ['~/assets/css/input.css'],
+  
+
   vite: {
     plugins: [
-      tailwindcss(),
+      tailwindcss() as any,
     ],
   },
+
   app: {
     head: {
       title: 'Dashboard Direktur — PT Media Antar Nusa',
@@ -23,6 +28,13 @@ export default defineNuxtConfig({
         { src: 'https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js', defer: true }
       ]
     }
-  }
-})
+  },
 
+  runtimeConfig: {
+    public: {
+      apiUrl: process.env.API_BASE_URL,
+    }
+  },
+
+  modules: ['nuxt-toast']
+})

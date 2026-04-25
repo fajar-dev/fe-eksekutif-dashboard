@@ -11,8 +11,12 @@
     <section class="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
       <article class="rounded-xl border border-gray-200 bg-white p-5">
         <div class="mb-4 flex items-start justify-between gap-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-sm bg-blue-50 text-lg">💰</div>
-          <span class="inline-flex items-center rounded-full bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-600">↑ 8.4%</span>
+          <div class="flex h-10 w-10 items-center justify-center rounded-sm bg-primary-50 text-primary-600">
+            <Coins class="h-5 w-5" />
+          </div>
+          <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-600">
+            <ArrowUp class="h-3 w-3" /> 8.4%
+          </span>
         </div>
         <div class="font-mono text-2xl font-semibold">9,2M</div>
         <div class="text-xs text-gray-500">Revenue Bulan Ini (Rp)</div>
@@ -21,8 +25,12 @@
 
       <article class="rounded-xl border border-gray-200 bg-white p-5">
         <div class="mb-4 flex items-start justify-between gap-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-sm bg-emerald-50 text-lg">📡</div>
-          <span class="inline-flex items-center rounded-full bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-600">↑ 312</span>
+          <div class="flex h-10 w-10 items-center justify-center rounded-sm bg-emerald-50 text-emerald-600">
+            <Wifi class="h-5 w-5" />
+          </div>
+          <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-600">
+            <ArrowUp class="h-3 w-3" /> 312
+          </span>
         </div>
         <div class="font-mono text-2xl font-semibold">14.820</div>
         <div class="text-xs text-gray-500">Pelanggan ISP Aktif</div>
@@ -31,8 +39,12 @@
 
       <article class="rounded-xl border border-gray-200 bg-white p-5">
         <div class="mb-4 flex items-start justify-between gap-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-sm bg-purple-50 text-lg">👥</div>
-          <span class="inline-flex items-center rounded-full bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-600">↑ 4,2%</span>
+          <div class="flex h-10 w-10 items-center justify-center rounded-sm bg-purple-50 text-purple-600">
+            <Users class="h-5 w-5" />
+          </div>
+          <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-600">
+            <ArrowUp class="h-3 w-3" /> 4,2%
+          </span>
         </div>
         <div class="font-mono text-2xl font-semibold">18.240</div>
         <div class="text-xs text-gray-500">Pengguna NusaWork</div>
@@ -41,8 +53,12 @@
 
       <article class="rounded-xl border border-gray-200 bg-white p-5">
         <div class="mb-4 flex items-start justify-between gap-3">
-          <div class="flex h-10 w-10 items-center justify-center rounded-sm bg-yellow-50 text-lg">🏠</div>
-          <span class="inline-flex items-center rounded-full bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-600">↑ 2.140</span>
+          <div class="flex h-10 w-10 items-center justify-center rounded-sm bg-yellow-50 text-yellow-600">
+            <House class="h-5 w-5" />
+          </div>
+          <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-600">
+            <ArrowUp class="h-3 w-3" /> 2.140
+          </span>
         </div>
         <div class="font-mono text-2xl font-semibold">6.480</div>
         <div class="text-xs text-gray-500">Home Connect ONU Aktif</div>
@@ -57,7 +73,7 @@
             <div class="text-sm font-semibold">Tren Revenue per Unit Bisnis</div>
             <div class="text-xs text-gray-400">Jan – Mar 2026 (dalam juta Rp)</div>
           </div>
-          <a href="#" class="text-sm font-medium text-blue-600 hover:underline">Lihat Semua →</a>
+          <a href="#" class="text-sm font-medium text-primary-600 hover:underline">Lihat Semua →</a>
         </div>
 
         <AreaChart 
@@ -66,7 +82,7 @@
         />
 
         <div class="mt-3 flex flex-wrap gap-4">
-          <div class="flex items-center gap-2 text-xs text-gray-500"><span class="h-2 w-2 rounded-sm bg-blue-600"></span>ISP (80%)</div>
+          <div class="flex items-center gap-2 text-xs text-gray-500"><span class="h-2 w-2 rounded-sm bg-primary-600"></span>ISP (80%)</div>
           <div class="flex items-center gap-2 text-xs text-gray-500"><span class="h-2 w-2 rounded-sm bg-violet-500"></span>NusaWork SaaS</div>
           <div class="flex items-center gap-2 text-xs text-gray-500"><span class="h-2 w-2 rounded-sm bg-emerald-500"></span>GWS Reseller</div>
           <div class="flex items-center gap-2 text-xs text-gray-500"><span class="h-2 w-2 rounded-sm bg-yellow-400"></span>Home Connect</div>
@@ -85,7 +101,7 @@
             :labels="donutData.labels" 
           />
           <div class="w-full divide-y divide-gray-200">
-            <div class="flex items-center justify-between py-1.5 text-xs"><div class="flex items-center gap-2"><span class="h-2 w-2 rounded bg-blue-600"></span>ISP</div><div class="font-mono font-semibold">80%</div></div>
+            <div class="flex items-center justify-between py-1.5 text-xs"><div class="flex items-center gap-2"><span class="h-2 w-2 rounded bg-primary-600"></span>ISP</div><div class="font-mono font-semibold">80%</div></div>
             <div class="flex items-center justify-between py-1.5 text-xs"><div class="flex items-center gap-2"><span class="h-2 w-2 rounded bg-violet-500"></span>NusaWork</div><div class="font-mono font-semibold">12%</div></div>
             <div class="flex items-center justify-between py-1.5 text-xs"><div class="flex items-center gap-2"><span class="h-2 w-2 rounded bg-emerald-500"></span>GWS</div><div class="font-mono font-semibold">5%</div></div>
             <div class="flex items-center justify-between py-1.5 text-xs"><div class="flex items-center gap-2"><span class="h-2 w-2 rounded bg-yellow-400"></span>Home Connect</div><div class="font-mono font-semibold">3%</div></div>
@@ -113,8 +129,8 @@
           </div>
           <div class="flex items-center justify-between gap-3 py-3 text-xs">
             <span class="min-w-0 text-gray-500">SLA Uptime</span>
-            <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100"><div class="h-full rounded-sm bg-blue-600" style="width:99%"></div></div>
-            <span class="font-mono font-semibold text-blue-600">99,1%</span>
+            <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100"><div class="h-full rounded-sm bg-primary-600" style="width:99%"></div></div>
+            <span class="font-mono font-semibold text-primary-600">99,1%</span>
           </div>
           <div class="flex items-center justify-between gap-3 py-3 text-xs">
             <span class="min-w-0 text-gray-500">Collection Rate</span>
@@ -141,24 +157,24 @@
         </div>
         <div class="flex flex-col gap-2">
           <div class="relative flex items-center justify-between overflow-hidden rounded-sm bg-gray-100 px-4 py-2 text-xs">
-            <div class="funnel-fill bg-blue-600" style="width:100%"></div>
-            <span class="relative z-10 font-medium">📍 ONU Terpasang</span>
+            <div class="funnel-fill bg-primary-600" style="width:100%"></div>
+            <span class="relative z-10 flex items-center gap-1.5 font-medium"><MapPin class="h-4 w-4" /> ONU Terpasang</span>
             <div class="relative z-10 text-right">
               <div class="font-mono font-bold text-xs">6.480</div>
               <div class="text-xs text-gray-400 font-mono">100%</div>
             </div>
           </div>
           <div class="relative flex items-center justify-between overflow-hidden rounded-sm bg-gray-100 px-4 py-2 text-xs">
-            <div class="funnel-fill bg-blue-600" style="width:94%"></div>
-            <span class="relative z-10 font-medium">✅ Aktivasi Berhasil</span>
+            <div class="funnel-fill bg-primary-600" style="width:94%"></div>
+            <span class="relative z-10 flex items-center gap-1.5 font-medium"><CheckCircle2 class="h-4 w-4" /> Aktivasi Berhasil</span>
             <div class="relative z-10 text-right">
               <div class="font-mono font-bold text-xs">6.091</div>
               <div class="text-xs text-gray-400 font-mono">94%</div>
             </div>
           </div>
           <div class="relative flex items-center justify-between overflow-hidden rounded-sm bg-gray-100 px-4 py-2 text-xs">
-            <div class="funnel-fill bg-blue-600" style="width:60%"></div>
-            <span class="relative z-10 font-medium">📶 Aktif Gunakan</span>
+            <div class="funnel-fill bg-primary-600" style="width:60%"></div>
+            <span class="relative z-10 flex items-center gap-1.5 font-medium"><Activity class="h-4 w-4" /> Aktif Gunakan</span>
             <div class="relative z-10 text-right">
               <div class="font-mono font-bold text-xs">3.880</div>
               <div class="text-xs text-gray-400 font-mono">60%</div>
@@ -166,14 +182,17 @@
           </div>
           <div class="relative flex items-center justify-between overflow-hidden rounded-sm bg-gray-100 px-4 py-2 text-xs">
             <div class="funnel-fill bg-emerald-500" style="width:49%"></div>
-            <span class="relative z-10 font-medium">💳 Konversi Berbayar</span>
+            <span class="relative z-10 flex items-center gap-1.5 font-medium"><CreditCard class="h-4 w-4" /> Konversi Berbayar</span>
             <div class="relative z-10 text-right">
               <div class="font-mono font-bold text-xs">3.210</div>
               <div class="text-xs font-bold text-emerald-600 font-mono">49,5% ✓</div>
             </div>
           </div>
           <div class="mt-3 rounded-sm bg-emerald-50 px-4 py-3 text-xs text-emerald-800">
-            🎯 Target konversi 50% hampir tercapai. Estimasi tambahan revenue: <strong class="font-bold">Rp 580 juta/bulan</strong>
+            <span class="flex items-start gap-1.5">
+              <Target class="mt-0.5 h-4 w-4 flex-shrink-0" />
+              <span>Target konversi 50% hampir tercapai. Estimasi tambahan revenue: <strong class="font-bold">Rp 580 juta/bulan</strong></span>
+            </span>
           </div>
         </div>
       </article>
@@ -185,12 +204,12 @@
             <div class="text-sm font-semibold">Alert &amp; Notifikasi</div>
             <div class="text-xs text-gray-400">Perlu perhatian Anda</div>
           </div>
-          <a href="#" class="text-sm font-medium text-blue-600 hover:underline">Semua →</a>
+          <a href="#" class="text-sm font-medium text-primary-600 hover:underline">Semua →</a>
         </div>
         <div class="space-y-2">
           <div class="rounded-sm bg-red-50 p-3">
             <div class="flex items-start gap-3 text-sm">
-              <span class="mt-0.5 flex-shrink-0">🔴</span>
+              <TriangleAlert class="mt-0.5 h-5 w-5 flex-shrink-0 text-red-500" />
               <div class="space-y-0.5">
                 <h1 class="font-semibold block text-gray-900">Gangguan Jaringan Aktif</h1>
                 <p class="text-xs text-gray-500">3 node di Medan Utara down. 248 pelanggan terdampak.</p>
@@ -200,7 +219,7 @@
           </div>
           <div class="rounded-sm bg-yellow-50 p-3">
             <div class="flex items-start gap-3 text-sm">
-              <span class="mt-0.5 flex-shrink-0">🟡</span>
+              <ReceiptText class="mt-0.5 h-5 w-5 flex-shrink-0 text-yellow-500" />
               <div class="space-y-0.5">
                 <h1 class="font-semibold block text-gray-900">Invoice Jatuh Tempo</h1>
                 <p class="text-xs text-gray-500">Rp 1,2M outstanding &gt; 60 hari dari 14 pelanggan bisnis.</p>
@@ -208,9 +227,9 @@
               </div>
             </div>
           </div>
-          <div class="rounded-sm bg-blue-50 p-3">
+          <div class="rounded-sm bg-primary-50 p-3">
             <div class="flex items-start gap-3 text-sm">
-              <span class="mt-0.5 flex-shrink-0">🔵</span>
+              <RefreshCcw class="mt-0.5 h-5 w-5 flex-shrink-0 text-primary-600" />
               <div class="space-y-0.5">
                 <h1 class="font-semibold block text-gray-900">NusaWork — Renewal Masuk</h1>
                 <p class="text-xs text-gray-500">8 perusahaan renewal bulan ini. Total ARR: Rp 890 juta.</p>
@@ -220,7 +239,7 @@
           </div>
           <div class="rounded-sm bg-emerald-50 p-3">
             <div class="flex items-start gap-3 text-sm">
-              <span class="mt-0.5 flex-shrink-0">🟢</span>
+              <MapPin class="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
               <div class="space-y-0.5">
                 <h1 class="font-semibold block text-gray-900">Kawasan Baru Siap</h1>
                 <p class="text-xs text-gray-500">Fiber Kawasan Perumahan Helvetia aktif. 1.200 rumah siap ONU.</p>
@@ -236,6 +255,12 @@
 
 
 <script setup lang="ts">
+import { 
+  Coins, ArrowUp, Wifi, Users, House, 
+  MapPin, CheckCircle2, Activity, CreditCard, Target, 
+  TriangleAlert, ReceiptText, RefreshCcw 
+} from 'lucide-vue-next'
+
 const chartData = {
   categories: ['Jan', 'Feb', 'Mar', 'Apr'],
   series: [

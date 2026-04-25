@@ -4,7 +4,7 @@
       <div class="flex items-center gap-3 min-w-0">
         <button
           type="button"
-          class="inline-flex items-center rounded-lg border border-gray-200 bg-white p-2 text-sm text-gray-500 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 lg:hidden"
+          class="inline-flex items-center rounded-lg border border-gray-200 bg-white p-2 text-sm text-gray-500 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 lg:hidden"
           data-drawer-target="default-sidebar"
           data-drawer-show="default-sidebar"
           aria-controls="default-sidebar"
@@ -21,11 +21,17 @@
       </div>
       <div class="flex items-center gap-3 min-w-0">
         <span class="rounded-full bg-gray-100 px-3 py-1.5 text-xs text-gray-500 font-mono truncate">Mar 2026 · Q1</span>
-        <button type="button" class="relative inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-sm bg-gray-100 text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <button type="button" class="relative inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-sm bg-gray-100 text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500">
+          <Bell class="h-5 w-5" />
           <span class="absolute right-1.5 top-1.5 h-2 w-2 rounded-full border-2 border-white bg-red-500"></span>
         </button>
       </div>
     </div>
   </header>
 </template>
+
+<script setup lang="ts">
+import { 
+  Bell
+} from 'lucide-vue-next'
+</script>

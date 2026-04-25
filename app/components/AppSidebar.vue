@@ -8,7 +8,7 @@
       <div class="flex-1 overflow-y-auto pt-7">
         <div class="mb-5 border-b border-gray-200 px-6 pb-7">
           <div class="flex items-center gap-3">
-            <div class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-sm bg-blue-600">
+            <div class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-sm bg-primary-600">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" aria-hidden="true">
                 <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
               </svg>
@@ -25,8 +25,8 @@
             <div class="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-gray-400">Overview</div>
             <ul class="space-y-0">
               <li>
-                <a href="#" class="flex items-center gap-3 rounded-sm bg-blue-50 px-3 py-2 text-sm font-medium text-blue-600">
-                  <span class="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md bg-blue-600">
+                <a href="#" class="flex items-center gap-3 rounded-sm bg-primary-50 px-3 py-2 text-sm font-medium text-primary-600">
+                  <span class="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md bg-primary-600">
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="white" aria-hidden="true">
                       <rect x="3" y="3" width="7" height="7" rx="1"></rect>
                       <rect x="14" y="3" width="7" height="7" rx="1"></rect>
@@ -65,7 +65,7 @@
 
       <div class="fixed bottom-0 w-60 border-t border-r border-gray-200 bg-white px-6 py-5">
         <div class="flex items-center gap-3">
-          <div class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-sm font-bold text-white">D</div>
+          <div class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary-600 to-indigo-600 text-sm font-bold text-white">D</div>
           <div>
             <div class="text-sm font-semibold">Direktur Utama</div>
             <div class="text-xs text-gray-400">PT Media Antar Nusa</div>
