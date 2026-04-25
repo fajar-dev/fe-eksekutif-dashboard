@@ -1,7 +1,7 @@
 import axios from "axios"
 import { apiService } from "./api-service"
 import { handleServiceError } from "../composables/error-helper"
-import type { AuthResponse, User, ApiResponse } from "../types/auth"
+import type { AuthResponse, User } from "../types/auth"
 
 export class AuthService {
     private readonly ACCESS_TOKEN_KEY = 'accessToken'
@@ -82,9 +82,9 @@ export class AuthService {
         }
     }
 
-    async google(token: string): Promise<AuthResponse> {
+    async google(code: string): Promise<AuthResponse> {
         try {
-            const response = await apiService.client.post<AuthResponse>('/auth/google', { token })
+            const response = await apiService.client.post<AuthResponse>('/auth/google', { code })
             this.setSession(response.data)
             return response.data
         } catch (error: any) {

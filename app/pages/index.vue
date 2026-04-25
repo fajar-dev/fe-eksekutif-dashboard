@@ -1,9 +1,9 @@
 <template>
   <main class="p-4 sm:p-6 lg:p-8">
-    <div class="mb-6 flex flex-col gap-3 rounded-sm border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-900 sm:flex-row sm:items-center">
+    <div v-if="noc && noc.openTickets > 0" class="mb-6 flex flex-col gap-3 rounded-sm border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-900 sm:flex-row sm:items-center">
       <div class="flex items-center gap-3">
         <span class="h-2 w-2 flex-shrink-0 rounded-full bg-yellow-400 animate-pulse-soft"></span>
-        <span><strong>3 area jaringan</strong> mengalami degradasi di Medan Utara — Tim NOC sedang investigasi.</span>
+        <span><strong>{{ noc.openTickets }} tiket aktif</strong> — {{ noc.statusMessage }}</span>
       </div>
       <a href="#" class="sm:ml-auto font-semibold text-yellow-700 hover:underline">Lihat Detail →</a>
     </div>
@@ -14,13 +14,22 @@
           <div class="flex h-10 w-10 items-center justify-center rounded-sm bg-primary-50 text-primary-600">
             <Coins class="h-5 w-5" />
           </div>
-          <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-600">
-            <ArrowUp class="h-3 w-3" /> 8.4%
+          <span v-if="revenue" :class="['inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold', revenue.trend === 'up' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500']">
+            <ArrowUp v-if="revenue.trend === 'up'" class="h-3 w-3" />
+            <ArrowDown v-else class="h-3 w-3" />
+            {{ Math.abs(revenue.revenuePercentage).toFixed(1) }}%
           </span>
+          <Skeleton v-else customClass="h-6 w-12 rounded-full" />
         </div>
-        <div class="font-mono text-2xl font-semibold">9,2M</div>
+        <div class="font-mono text-2xl font-semibold">
+          <span v-if="revenue">{{ formatCompact(revenue.revenueCurrent) }}</span>
+          <Skeleton v-else customClass="h-8 w-24" />
+        </div>
         <div class="text-xs text-gray-500">Revenue Bulan Ini (Rp)</div>
-        <div class="mt-2 border-t border-gray-200 pt-2 text-xs text-gray-400">Target: Rp 9,5M · Progress 96,8%</div>
+        <div class="mt-2 border-t border-gray-200 pt-2 text-xs text-gray-400 min-h-[1rem]">
+          <span v-if="revenue">Bulan lalu: {{ formatCompact(revenue.revenuePrevious) }} · Pertumbuhan {{ revenue.revenuePercentage > 0 ? '+' : '' }}{{ revenue.revenuePercentage.toFixed(2) }}%</span>
+          <Skeleton v-else customClass="h-4 w-full" />
+        </div>
       </article>
 
       <article class="rounded-xl border border-gray-200 bg-white p-5">
@@ -28,13 +37,22 @@
           <div class="flex h-10 w-10 items-center justify-center rounded-sm bg-emerald-50 text-emerald-600">
             <Wifi class="h-5 w-5" />
           </div>
-          <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-600">
-            <ArrowUp class="h-3 w-3" /> 312
+          <span v-if="isp" :class="['inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold', isp.trend === 'up' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500']">
+            <ArrowUp v-if="isp.trend === 'up'" class="h-3 w-3" />
+            <ArrowDown v-else class="h-3 w-3" />
+            {{ isp.newCustomersGrowth > 0 ? '+' : '' }}{{ formatNumber(isp.newCustomersGrowth) }}
           </span>
+          <Skeleton v-else customClass="h-6 w-12 rounded-full" />
         </div>
-        <div class="font-mono text-2xl font-semibold">14.820</div>
+        <div class="font-mono text-2xl font-semibold">
+          <span v-if="isp">{{ formatNumber(isp.customers) }}</span>
+          <Skeleton v-else customClass="h-8 w-24" />
+        </div>
         <div class="text-xs text-gray-500">Pelanggan ISP Aktif</div>
-        <div class="mt-2 border-t border-gray-200 pt-2 text-xs text-gray-400">Churn bulan ini: 89 pelanggan (0,6%)</div>
+        <div class="mt-2 border-t border-gray-200 pt-2 text-xs text-gray-400 min-h-[1rem]">
+          <span v-if="isp">Churn bulan ini: {{ formatNumber(isp.churnedCustomers) }} pelanggan ({{ isp.churnedCustomersPercentage.toFixed(2) }}%)</span>
+          <Skeleton v-else customClass="h-4 w-full" />
+        </div>
       </article>
 
       <article class="rounded-xl border border-gray-200 bg-white p-5">
@@ -42,13 +60,22 @@
           <div class="flex h-10 w-10 items-center justify-center rounded-sm bg-purple-50 text-purple-600">
             <Users class="h-5 w-5" />
           </div>
-          <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-600">
-            <ArrowUp class="h-3 w-3" /> 4,2%
+          <span v-if="nusawork" :class="['inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold', nusawork.trend === 'up' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500']">
+            <ArrowUp v-if="nusawork.trend === 'up'" class="h-3 w-3" />
+            <ArrowDown v-else class="h-3 w-3" />
+            {{ Math.abs(nusawork.usersPercentage).toFixed(1) }}%
           </span>
+          <Skeleton v-else customClass="h-6 w-12 rounded-full" />
         </div>
-        <div class="font-mono text-2xl font-semibold">18.240</div>
+        <div class="font-mono text-2xl font-semibold">
+          <span v-if="nusawork">{{ formatNumber(nusawork.users) }}</span>
+          <Skeleton v-else customClass="h-8 w-24" />
+        </div>
         <div class="text-xs text-gray-500">Pengguna NusaWork</div>
-        <div class="mt-2 border-t border-gray-200 pt-2 text-xs text-gray-400">100 perusahaan · MRR tumbuh stabil</div>
+        <div class="mt-2 border-t border-gray-200 pt-2 text-xs text-gray-400 min-h-[1rem]">
+          <span v-if="nusawork">{{ formatNumber(nusawork.totalCompanies) }} perusahaan · {{ formatNumber(nusawork.stableCompanies) }} stabil</span>
+          <Skeleton v-else customClass="h-4 w-full" />
+        </div>
       </article>
 
       <article class="rounded-xl border border-gray-200 bg-white p-5">
@@ -56,13 +83,22 @@
           <div class="flex h-10 w-10 items-center justify-center rounded-sm bg-yellow-50 text-yellow-600">
             <House class="h-5 w-5" />
           </div>
-          <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-600">
-            <ArrowUp class="h-3 w-3" /> 2.140
+          <span v-if="homeconnect" :class="['inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold', homeconnect.trend === 'up' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500']">
+            <ArrowUp v-if="homeconnect.trend === 'up'" class="h-3 w-3" />
+            <ArrowDown v-else class="h-3 w-3" />
+            {{ homeconnect.activeGrowth > 0 ? '+' : '' }}{{ formatNumber(homeconnect.activeGrowth) }}
           </span>
+          <Skeleton v-else customClass="h-6 w-12 rounded-full" />
         </div>
-        <div class="font-mono text-2xl font-semibold">6.480</div>
-        <div class="text-xs text-gray-500">Home Connect ONU Aktif</div>
-        <div class="mt-2 border-t border-gray-200 pt-2 text-xs text-gray-400">Konversi paid: 3.210 (49,5%)</div>
+        <div class="font-mono text-2xl font-semibold">
+          <span v-if="homeconnect">{{ formatNumber(homeconnect.active) }}</span>
+          <Skeleton v-else customClass="h-8 w-24" />
+        </div>
+        <div class="text-xs text-gray-500">Home Connect Aktif</div>
+        <div class="mt-2 border-t border-gray-200 pt-2 text-xs text-gray-400 min-h-[1rem]">
+          <span v-if="homeconnect">Konversi paid: {{ formatNumber(homeconnect.paid) }} ({{ homeconnect.paidPercentage.toFixed(1) }}%)</span>
+          <Skeleton v-else customClass="h-4 w-full" />
+        </div>
       </article>
     </section>
 
@@ -71,21 +107,33 @@
         <div class="mb-5 flex items-center justify-between gap-3">
           <div>
             <div class="text-sm font-semibold">Tren Revenue per Unit Bisnis</div>
-            <div class="text-xs text-gray-400">Jan – Mar 2026 (dalam juta Rp)</div>
+            <div class="text-xs text-gray-400 min-h-[1rem]">
+              <span v-if="chartSubtitle">{{ chartSubtitle }}</span>
+              <Skeleton v-else customClass="h-4 w-48" />
+            </div>
           </div>
           <a href="#" class="text-sm font-medium text-primary-600 hover:underline">Lihat Semua →</a>
         </div>
 
-        <AreaChart 
-          :series="chartData.series" 
-          :categories="chartData.categories" 
+        <AreaChart
+          v-if="chartData.series.length"
+          :series="chartData.series"
+          :categories="chartData.categories"
+          :colors="areaColors"
         />
+        <div v-else class="flex min-h-[320px] items-center justify-center">
+          <Skeleton customClass="h-[320px] w-full" />
+        </div>
 
         <div class="mt-3 flex flex-wrap gap-4">
-          <div class="flex items-center gap-2 text-xs text-gray-500"><span class="h-2 w-2 rounded-sm bg-primary-600"></span>ISP (80%)</div>
-          <div class="flex items-center gap-2 text-xs text-gray-500"><span class="h-2 w-2 rounded-sm bg-violet-500"></span>NusaWork SaaS</div>
-          <div class="flex items-center gap-2 text-xs text-gray-500"><span class="h-2 w-2 rounded-sm bg-emerald-500"></span>GWS Reseller</div>
-          <div class="flex items-center gap-2 text-xs text-gray-500"><span class="h-2 w-2 rounded-sm bg-yellow-400"></span>Home Connect</div>
+          <div
+            v-for="s in chartData.series"
+            :key="s.name"
+            class="flex items-center gap-2 text-xs text-gray-500"
+          >
+            <span class="h-2 w-2 rounded-sm" :style="{ backgroundColor: colorFromName(s.name) }"></span>
+            {{ s.name }}
+          </div>
         </div>
       </article>
 
@@ -96,21 +144,41 @@
           <div class="text-xs text-gray-400">Bulan berjalan</div>
         </div>
         <div class="flex flex-col items-center">
-          <DonutChart 
-            :series="donutData.series" 
-            :labels="donutData.labels" 
+          <DonutChart
+            v-if="donutData.series.length"
+            :series="donutData.series"
+            :labels="donutData.labels"
+            :colors="donutColors"
           />
-          <div class="w-full divide-y divide-gray-200">
-            <div class="flex items-center justify-between py-1.5 text-xs"><div class="flex items-center gap-2"><span class="h-2 w-2 rounded bg-primary-600"></span>ISP</div><div class="font-mono font-semibold">80%</div></div>
-            <div class="flex items-center justify-between py-1.5 text-xs"><div class="flex items-center gap-2"><span class="h-2 w-2 rounded bg-violet-500"></span>NusaWork</div><div class="font-mono font-semibold">12%</div></div>
-            <div class="flex items-center justify-between py-1.5 text-xs"><div class="flex items-center gap-2"><span class="h-2 w-2 rounded bg-emerald-500"></span>GWS</div><div class="font-mono font-semibold">5%</div></div>
-            <div class="flex items-center justify-between py-1.5 text-xs"><div class="flex items-center gap-2"><span class="h-2 w-2 rounded bg-yellow-400"></span>Home Connect</div><div class="font-mono font-semibold">3%</div></div>
+          <div v-else class="flex h-[280px] w-[280px] items-center justify-center rounded-full border-[30px] border-gray-100 animate-pulse mb-4">
           </div>
+          <div class="w-full divide-y divide-gray-200">
+            <div
+              v-for="item in visibleRevenue"
+              :key="item.name"
+              class="flex items-center gap-2 py-1.5 text-xs"
+            >
+              <span class="h-2 w-2 flex-shrink-0 rounded" :style="{ backgroundColor: colorFromName(item.name) }"></span>
+              <span class="flex-1 truncate text-gray-600" :title="item.name">{{ item.name }}</span>
+              <span class="flex-shrink-0 font-mono font-semibold tabular-nums">{{ formatCompact(item.revenue) }}</span>
+              <span class="flex-shrink-0 w-10 text-right font-mono text-gray-400">{{ item.percentage.toFixed(1) }}%</span>
+            </div>
+            <div v-if="!revenueMonthly.length" class="space-y-2 py-2">
+              <Skeleton v-for="i in 5" :key="i" customClass="h-4 w-full" />
+            </div>
+          </div>
+          <button
+            v-if="revenueMonthly.length > REVENUE_PREVIEW"
+            class="mt-2 w-full text-center text-xs text-primary-600 hover:underline"
+            @click="showAllRevenue = !showAllRevenue"
+          >
+            {{ showAllRevenue ? 'Sembunyikan' : `Lihat ${revenueMonthly.length - REVENUE_PREVIEW} lainnya` }}
+          </button>
         </div>
       </article>
     </section>
 
-    <section class="grid grid-cols-1 gap-4 xl:grid-cols-3">
+    <section class="grid grid-cols-1 gap-4 xl:grid-cols-2">
       <article class="rounded-xl border border-gray-200 bg-white p-5">
         <div class="mb-5">
           <div class="text-sm font-semibold">Health Metrics</div>
@@ -119,38 +187,48 @@
         <div class="divide-y divide-gray-200">
           <div class="flex items-center justify-between gap-3 py-3 text-xs">
             <span class="min-w-0 text-gray-500">Churn Rate ISP</span>
-            <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100"><div class="h-full rounded-sm bg-red-500" style="width:6%"></div></div>
-            <span class="font-mono font-semibold text-red-500">0,6%</span>
-          </div>
-          <div class="flex items-center justify-between gap-3 py-3 text-xs">
-            <span class="min-w-0 text-gray-500">NPS Score</span>
-            <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100"><div class="h-full rounded-sm bg-emerald-500" style="width:74%"></div></div>
-            <span class="font-mono font-semibold text-emerald-500">74</span>
+            <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100">
+              <div class="h-full rounded-sm bg-red-500" :style="{ width: health ? Math.min(health.churnRate * 1000, 100) + '%' : '0%' }"></div>
+            </div>
+            <span v-if="health" class="font-mono font-semibold text-red-500">{{ (health.churnRate * 100).toFixed(2) + '%' }}</span>
+            <Skeleton v-else customClass="h-4 w-12" />
           </div>
           <div class="flex items-center justify-between gap-3 py-3 text-xs">
             <span class="min-w-0 text-gray-500">SLA Uptime</span>
-            <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100"><div class="h-full rounded-sm bg-primary-600" style="width:99%"></div></div>
-            <span class="font-mono font-semibold text-primary-600">99,1%</span>
+            <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100">
+              <div class="h-full rounded-sm bg-primary-600" :style="{ width: health ? ((1 - health.sla) * 100) + '%' : '0%' }"></div>
+            </div>
+            <span v-if="health" class="font-mono font-semibold text-primary-600">{{ ((1 - health.sla) * 100).toFixed(2) + '%' }}</span>
+            <Skeleton v-else customClass="h-4 w-12" />
           </div>
           <div class="flex items-center justify-between gap-3 py-3 text-xs">
             <span class="min-w-0 text-gray-500">Collection Rate</span>
-            <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100"><div class="h-full rounded-sm bg-violet-500" style="width:91%"></div></div>
-            <span class="font-mono font-semibold text-violet-500">91%</span>
+            <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100">
+              <div class="h-full rounded-sm bg-violet-500" :style="{ width: health ? (health.collectionRate * 100) + '%' : '0%' }"></div>
+            </div>
+            <span v-if="health" class="font-mono font-semibold text-violet-500">{{ (health.collectionRate * 100).toFixed(1) + '%' }}</span>
+            <Skeleton v-else customClass="h-4 w-12" />
           </div>
           <div class="flex items-center justify-between gap-3 py-3 text-xs">
             <span class="min-w-0 text-gray-500">Tiket Selesai</span>
-            <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100"><div class="h-full rounded-sm bg-yellow-400" style="width:87%"></div></div>
-            <span class="font-mono font-semibold text-yellow-500">87%</span>
+            <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100">
+              <div class="h-full rounded-sm bg-yellow-400" :style="{ width: health ? (health.tickets * 100) + '%' : '0%' }"></div>
+            </div>
+            <span v-if="health" class="font-mono font-semibold text-yellow-500">{{ (health.tickets * 100).toFixed(1) + '%' }}</span>
+            <Skeleton v-else customClass="h-4 w-12" />
           </div>
           <div class="flex items-center justify-between gap-3 py-3 text-xs">
             <span class="min-w-0 text-gray-500">ARPU ISP</span>
-            <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100"><div class="h-full rounded-sm bg-emerald-500" style="width:65%"></div></div>
-            <span class="font-mono font-semibold">Rp 182K</span>
+            <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100">
+              <div class="h-full rounded-sm bg-emerald-500" :style="{ width: health ? Math.min(health.arpu / 1_000_000 * 100, 100) + '%' : '0%' }"></div>
+            </div>
+            <span v-if="health" class="font-mono font-semibold">Rp {{ formatCompact(health.arpu) }}</span>
+            <Skeleton v-else customClass="h-4 w-16" />
           </div>
         </div>
       </article>
 
-      <article class="rounded-xl border border-gray-200 bg-white p-5">
+      <!-- <article class="rounded-xl border border-gray-200 bg-white p-5">
         <div class="mb-5">
           <div class="text-sm font-semibold">Funnel Home Connect</div>
           <div class="text-xs text-gray-400">Konversi per kawasan</div>
@@ -195,7 +273,7 @@
             </span>
           </div>
         </div>
-      </article>
+      </article> -->
 
 
       <article class="rounded-xl border border-gray-200 bg-white p-5">
@@ -207,46 +285,42 @@
           <a href="#" class="text-sm font-medium text-primary-600 hover:underline">Semua →</a>
         </div>
         <div class="space-y-2">
-          <div class="rounded-sm bg-red-50 p-3">
-            <div class="flex items-start gap-3 text-sm">
-              <TriangleAlert class="mt-0.5 h-5 w-5 flex-shrink-0 text-red-500" />
-              <div class="space-y-0.5">
-                <h1 class="font-semibold block text-gray-900">Gangguan Jaringan Aktif</h1>
-                <p class="text-xs text-gray-500">3 node di Medan Utara down. 248 pelanggan terdampak.</p>
-                <span class="text-xs text-gray-400 font-mono">09:14 · 2 jam lalu</span>
+          <template v-if="alerts.length > 0">
+            <div
+              v-for="alert in alerts"
+              :key="alert.id"
+              :class="['rounded-sm p-3', {
+                'bg-red-50': alert.type === 'danger',
+                'bg-yellow-50': alert.type === 'warning',
+                'bg-primary-50': alert.type === 'info',
+                'bg-emerald-50': alert.type === 'success'
+              }]"
+            >
+              <div class="flex items-start gap-3 text-sm">
+                <TriangleAlert v-if="alert.type === 'danger'" class="mt-0.5 h-5 w-5 flex-shrink-0 text-red-500" />
+                <ReceiptText v-else-if="alert.type === 'warning'" class="mt-0.5 h-5 w-5 flex-shrink-0 text-yellow-500" />
+                <RefreshCcw v-else-if="alert.type === 'info'" class="mt-0.5 h-5 w-5 flex-shrink-0 text-primary-600" />
+                <MapPin v-else class="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
+                <div class="space-y-0.5">
+                  <h1 class="font-semibold block text-gray-900">{{ alert.title }}</h1>
+                  <p class="text-xs text-gray-500">{{ alert.content }}</p>
+                  <span class="text-xs text-gray-400 font-mono">{{ alert.time }}</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="rounded-sm bg-yellow-50 p-3">
-            <div class="flex items-start gap-3 text-sm">
-              <ReceiptText class="mt-0.5 h-5 w-5 flex-shrink-0 text-yellow-500" />
-              <div class="space-y-0.5">
-                <h1 class="font-semibold block text-gray-900">Invoice Jatuh Tempo</h1>
-                <p class="text-xs text-gray-500">Rp 1,2M outstanding &gt; 60 hari dari 14 pelanggan bisnis.</p>
-                <span class="text-xs text-gray-400">08:00 · Hari ini</span>
+          </template>
+          <template v-else-if="isAlertsLoading">
+            <div v-for="i in 3" :key="i" class="rounded-sm bg-gray-50 p-3">
+              <div class="flex items-start gap-3">
+                <Skeleton customClass="h-5 w-5" />
+                <div class="flex-1 space-y-2">
+                  <Skeleton customClass="h-4 w-1/3" />
+                  <Skeleton customClass="h-3 w-full" />
+                </div>
               </div>
             </div>
-          </div>
-          <div class="rounded-sm bg-primary-50 p-3">
-            <div class="flex items-start gap-3 text-sm">
-              <RefreshCcw class="mt-0.5 h-5 w-5 flex-shrink-0 text-primary-600" />
-              <div class="space-y-0.5">
-                <h1 class="font-semibold block text-gray-900">NusaWork — Renewal Masuk</h1>
-                <p class="text-xs text-gray-500">8 perusahaan renewal bulan ini. Total ARR: Rp 890 juta.</p>
-                <span class="text-xs text-gray-400">Kemarin · 16:30</span>
-              </div>
-            </div>
-          </div>
-          <div class="rounded-sm bg-emerald-50 p-3">
-            <div class="flex items-start gap-3 text-sm">
-              <MapPin class="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
-              <div class="space-y-0.5">
-                <h1 class="font-semibold block text-gray-900">Kawasan Baru Siap</h1>
-                <p class="text-xs text-gray-500">Fiber Kawasan Perumahan Helvetia aktif. 1.200 rumah siap ONU.</p>
-                <span class="text-xs text-gray-400">Kemarin · 10:00</span>
-              </div>
-            </div>
-          </div>
+          </template>
+          <div v-else class="p-8 text-center text-xs text-gray-400">Tidak ada notifikasi baru</div>
         </div>
       </article>
     </section>
@@ -255,24 +329,88 @@
 
 
 <script setup lang="ts">
-import { 
-  Coins, ArrowUp, Wifi, Users, House, 
-  MapPin, CheckCircle2, Activity, CreditCard, Target, 
-  TriangleAlert, ReceiptText, RefreshCcw 
+import {
+  Coins, ArrowUp, ArrowDown, Wifi, Users, House,
+  MapPin, CheckCircle2, Activity, CreditCard, Target,
+  TriangleAlert, ReceiptText, RefreshCcw
 } from 'lucide-vue-next'
+import { generalService } from '~/services/general-service'
+import { formatCompact, formatNumber } from '~/utils/format'
+import { colorFromName } from '~/utils/color'
+import type { RevenueStats, IspStats, NusaWorkStats, HomeConnectStats, RevenuePeriodItem, RevenueMonthlyItem, HealthStats, AlertItem, NocStatus } from '~/types/general'
 
-const chartData = {
-  categories: ['Jan', 'Feb', 'Mar', 'Apr'],
-  series: [
-    { name: 'ISP', data: [80, 82, 85, 88] },
-    { name: 'NusaWork', data: [12, 15, 18, 22] },
-    { name: 'GWS', data: [8, 9, 10, 11] },
-    { name: 'Home Connect', data: [4, 6, 8, 10] }
-  ]
-}
+const revenue = ref<RevenueStats | null>(null)
+const isp = ref<IspStats | null>(null)
+const nusawork = ref<NusaWorkStats | null>(null)
+const homeconnect = ref<HomeConnectStats | null>(null)
+const revenuePeriod = ref<RevenuePeriodItem[]>([])
+const revenueMonthly = ref<RevenueMonthlyItem[]>([])
+const health = ref<HealthStats | null>(null)
+const noc = ref<NocStatus | null>(null)
+const alerts = ref<AlertItem[]>([])
+const isAlertsLoading = ref(true)
+const sortedRevenueMonthly = computed(() =>
+  [...revenueMonthly.value].sort((a, b) => b.revenue - a.revenue)
+)
+const showAllRevenue = ref(false)
+const REVENUE_PREVIEW = 10
+const visibleRevenue = computed(() =>
+  showAllRevenue.value ? sortedRevenueMonthly.value : sortedRevenueMonthly.value.slice(0, REVENUE_PREVIEW)
+)
 
-const donutData = {
-  series: [80, 12, 5, 3],
-  labels: ['ISP', 'NusaWork', 'GWS', 'Home Connect']
-}
+onMounted(() => {
+  generalService.getRevenueStats().then(res => revenue.value = res.data)
+  generalService.getIspStats().then(res => isp.value = res.data)
+  generalService.getNusaWorkStats().then(res => nusawork.value = res.data)
+  generalService.getHomeConnectStats().then(res => homeconnect.value = res.data)
+  generalService.getRevenuePeriod().then(res => revenuePeriod.value = res.data)
+  generalService.getRevenueMonthly().then(res => revenueMonthly.value = res.data)
+  generalService.getHealthStats().then(res => health.value = res.data)
+  generalService.getNocStatus().then(res => noc.value = res.data)
+  generalService.getAlerts().then(res => {
+    alerts.value = res.data
+    isAlertsLoading.value = false
+  })
+})
+
+const donutData = computed(() => ({
+  series: sortedRevenueMonthly.value.map(item => item.revenue),
+  labels: sortedRevenueMonthly.value.map(item => item.name),
+}))
+
+const MONTH_SHORT = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des']
+
+const donutColors = computed(() => sortedRevenueMonthly.value.map(item => colorFromName(item.name)))
+const areaColors = computed(() => chartData.value.series.map(s => colorFromName(s.name)))
+
+const chartData = computed(() => {
+  if (!revenuePeriod.value.length) return { categories: [], series: [] }
+
+  const categories = revenuePeriod.value.map(p => p.monthName.substring(0, 3))
+
+  const names = [...new Set(revenuePeriod.value.flatMap(p => p.data.map(d => d.name)))]
+  const series = names.map(name => ({
+    name,
+    data: revenuePeriod.value.map(p => {
+      const item = p.data.find(d => d.name === name)
+      return item ? +(item.revenue / 1_000_000).toFixed(0) : 0
+    })
+  }))
+
+  return { categories, series }
+})
+
+const chartSubtitle = computed(() => {
+  const first = revenuePeriod.value.at(0)
+  const last = revenuePeriod.value.at(-1)
+  if (!first || !last) return ''
+  const [fy = '', fm = '1'] = first.period.split('-')
+  const [ly = '', lm = '1'] = last.period.split('-')
+  const start = MONTH_SHORT[parseInt(fm) - 1] ?? ''
+  const end = MONTH_SHORT[parseInt(lm) - 1] ?? ''
+  return fy === ly
+    ? `${start} – ${end} ${fy} (dalam juta Rp)`
+    : `${start} ${fy} – ${end} ${ly} (dalam juta Rp)`
+})
+
 </script>
