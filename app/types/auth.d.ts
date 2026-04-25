@@ -1,11 +1,9 @@
 export interface User {
     id: number
+    employeeId: string
     name: string
     email: string
-    role: string
-    avatar: string
-    lastLoginAt: string
-    lastLoginIp: string
+    photo: string
     isActive: boolean
 }
 

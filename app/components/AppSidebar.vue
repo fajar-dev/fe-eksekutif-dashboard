@@ -63,15 +63,74 @@
         </div>
       </div>
 
-      <div class="fixed bottom-0 w-60 border-t border-r border-gray-200 bg-white px-6 py-5">
-        <div class="flex items-center gap-3">
-          <div class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary-600 to-indigo-600 text-sm font-bold text-white">D</div>
-          <div>
-            <div class="text-sm font-semibold">Direktur Utama</div>
-            <div class="text-xs text-gray-400">PT Media Antar Nusa</div>
+      <div class="fixed bottom-0 w-60 border-t border-r border-gray-200 bg-white p-4 user-menu-container">
+        <div class="relative">
+          <button @click="toggleUserMenu" class="flex w-full items-center gap-3 rounded-md p-2 hover:bg-gray-50 focus:outline-none transition-colors">
+            <div class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary-600 to-indigo-600 text-sm font-bold text-white overflow-hidden">
+              <img v-if="authState.user?.photo" :src="authState.user.photo" alt="Photo" class="h-full w-full object-cover" />
+              <span v-else>{{ authState.user?.name?.charAt(0)?.toUpperCase() || 'U' }}</span>
+            </div>
+            <div class="text-left flex-1 min-w-0">
+              <div class="text-sm font-semibold truncate">{{ authState.user?.name }}</div>
+              <div class="text-xs text-gray-400 truncate">{{ authState.user?.employeeId }}</div>
+            </div>
+          </button>
+
+          <!-- Dropdown Popover -->
+          <div v-if="isUserMenuOpen" class="absolute bottom-full left-0 mb-2 w-full rounded-md border border-gray-200 bg-white shadow-lg overflow-hidden z-50">
+            <ul class="py-1">
+              <li>
+                <button @click="handleLogout" class="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 text-left transition-colors">
+                  <LogOut class="h-4 w-4" />
+                  Sign out
+                </button>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
   </aside>
 </template>
+
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
+import { LogOut } from 'lucide-vue-next'
+
+const { state: authState, service: authService } = useAuth()
+const toast = useToast()
+
+const isUserMenuOpen = ref(false)
+
+const toggleUserMenu = () => {
+  isUserMenuOpen.value = !isUserMenuOpen.value
+}
+
+const closeUserMenu = (e: MouseEvent) => {
+  const target = e.target as HTMLElement
+  if (!target.closest('.user-menu-container')) {
+    isUserMenuOpen.value = false
+  }
+}
+
+onMounted(() => {
+  if (typeof document !== 'undefined') {
+    document.addEventListener('click', closeUserMenu)
+  }
+})
+
+onUnmounted(() => {
+  if (typeof document !== 'undefined') {
+    document.removeEventListener('click', closeUserMenu)
+  }
+})
+
+const handleLogout = async () => {
+  isUserMenuOpen.value = false
+  await authService.logout()
+  toast.success({
+    message: 'Logout berhasil',
+  })
+  navigateTo('/auth/sign-in')
+}
+</script>

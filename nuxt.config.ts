@@ -36,5 +36,9 @@ export default defineNuxtConfig({
     }
   },
 
-  modules: ['nuxt-toast']
+  googleSignIn: {
+    clientId: process.env.GOOGLE_CLIENT_ID
+  },
+
+  modules: ['nuxt-toast', 'nuxt-vue3-google-signin']
 })

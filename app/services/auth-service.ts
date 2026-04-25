@@ -82,6 +82,16 @@ export class AuthService {
         }
     }
 
+    async google(token: string): Promise<AuthResponse> {
+        try {
+            const response = await apiService.client.post<AuthResponse>('/auth/google', { token })
+            this.setSession(response.data)
+            return response.data
+        } catch (error: any) {
+            return handleServiceError(error)
+        }
+    }
+
     async logout() {
         if (typeof window === 'undefined') return
             const accessToken = localStorage.getItem(this.ACCESS_TOKEN_KEY)
