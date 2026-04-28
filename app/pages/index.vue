@@ -302,7 +302,7 @@
                 <RefreshCcw v-else-if="alert.type === 'info'" class="mt-0.5 h-5 w-5 flex-shrink-0 text-primary-600" />
                 <MapPin v-else class="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-500" />
                 <div class="space-y-0.5">
-                  <h1 class="font-semibold block text-gray-900">{{ alert.title }}</h1>
+                  <div class="font-semibold text-gray-900">{{ alert.title }}</div>
                   <p class="text-xs text-gray-500">{{ alert.content }}</p>
                   <span class="text-xs text-gray-400 font-mono">{{ alert.time }}</span>
                 </div>
@@ -331,8 +331,7 @@
 <script setup lang="ts">
 import {
   Coins, ArrowUp, ArrowDown, Wifi, Users, House,
-  MapPin, CheckCircle2, Activity, CreditCard, Target,
-  TriangleAlert, ReceiptText, RefreshCcw
+  TriangleAlert, ReceiptText, RefreshCcw, MapPin
 } from 'lucide-vue-next'
 import { generalService } from '~/services/general-service'
 import { formatCompact, formatNumber } from '~/utils/format'

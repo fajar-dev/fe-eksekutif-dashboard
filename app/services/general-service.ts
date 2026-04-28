@@ -4,22 +4,13 @@ import type { ApiResponse, RevenueStats, IspStats, NusaWorkStats, HomeConnectSta
 
 export class GeneralService {
 
-    async getNocStatus(): Promise<ApiResponse<NocStatus>> {
-        try {
-            const response = await apiService.client.get<ApiResponse<NocStatus>>('/general/noc', {
-                headers: { Authorization: `Bearer ${useAuth().state.token}` }
-            })
-            return response.data
-        } catch (error: any) {
-            return handleServiceError(error)
-        }
+    private get authHeaders() {
+        return { headers: { Authorization: `Bearer ${useAuth().state.token}` } }
     }
 
-    async getHealthStats(): Promise<ApiResponse<HealthStats>> {
+    async getRevenueStats(): Promise<ApiResponse<RevenueStats>> {
         try {
-            const response = await apiService.client.get<ApiResponse<HealthStats>>('/general/health', {
-                headers: { Authorization: `Bearer ${useAuth().state.token}` }
-            })
+            const response = await apiService.client.get<ApiResponse<RevenueStats>>('/general/revenue', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)
@@ -28,9 +19,7 @@ export class GeneralService {
 
     async getIspStats(): Promise<ApiResponse<IspStats>> {
         try {
-            const response = await apiService.client.get<ApiResponse<IspStats>>('/general/isp', {
-                headers: { Authorization: `Bearer ${useAuth().state.token}` }
-            })
+            const response = await apiService.client.get<ApiResponse<IspStats>>('/general/isp', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)
@@ -39,20 +28,7 @@ export class GeneralService {
 
     async getNusaWorkStats(): Promise<ApiResponse<NusaWorkStats>> {
         try {
-            const response = await apiService.client.get<ApiResponse<NusaWorkStats>>('/general/nusawork', {
-                headers: { Authorization: `Bearer ${useAuth().state.token}` }
-            })
-            return response.data
-        } catch (error: any) {
-            return handleServiceError(error)
-        }
-    }
-
-    async getRevenuePeriod(): Promise<ApiResponse<RevenuePeriodItem[]>> {
-        try {
-            const response = await apiService.client.get<ApiResponse<RevenuePeriodItem[]>>('/general/revenue/period', {
-                headers: { Authorization: `Bearer ${useAuth().state.token}` }
-            })
+            const response = await apiService.client.get<ApiResponse<NusaWorkStats>>('/general/nusawork', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)
@@ -61,9 +37,16 @@ export class GeneralService {
 
     async getHomeConnectStats(): Promise<ApiResponse<HomeConnectStats>> {
         try {
-            const response = await apiService.client.get<ApiResponse<HomeConnectStats>>('/general/homeconnect', {
-                headers: { Authorization: `Bearer ${useAuth().state.token}` }
-            })
+            const response = await apiService.client.get<ApiResponse<HomeConnectStats>>('/general/homeconnect', this.authHeaders)
+            return response.data
+        } catch (error: any) {
+            return handleServiceError(error)
+        }
+    }
+
+    async getRevenuePeriod(): Promise<ApiResponse<RevenuePeriodItem[]>> {
+        try {
+            const response = await apiService.client.get<ApiResponse<RevenuePeriodItem[]>>('/general/revenue/period', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)
@@ -72,22 +55,25 @@ export class GeneralService {
 
     async getRevenueMonthly(): Promise<ApiResponse<RevenueMonthlyItem[]>> {
         try {
-            const response = await apiService.client.get<ApiResponse<RevenueMonthlyItem[]>>('/general/revenue/monthly', {
-                headers: { Authorization: `Bearer ${useAuth().state.token}` }
-            })
+            const response = await apiService.client.get<ApiResponse<RevenueMonthlyItem[]>>('/general/revenue/monthly', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)
         }
     }
 
-    async getRevenueStats(): Promise<ApiResponse<RevenueStats>> {
+    async getHealthStats(): Promise<ApiResponse<HealthStats>> {
         try {
-            const response = await apiService.client.get<ApiResponse<RevenueStats>>('/general/revenue', {
-                headers: {
-                    Authorization: `Bearer ${useAuth().state.token}`
-                }
-            })
+            const response = await apiService.client.get<ApiResponse<HealthStats>>('/general/health', this.authHeaders)
+            return response.data
+        } catch (error: any) {
+            return handleServiceError(error)
+        }
+    }
+
+    async getNocStatus(): Promise<ApiResponse<NocStatus>> {
+        try {
+            const response = await apiService.client.get<ApiResponse<NocStatus>>('/general/noc', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)
@@ -96,9 +82,7 @@ export class GeneralService {
 
     async getAlerts(): Promise<ApiResponse<AlertItem[]>> {
         try {
-            const response = await apiService.client.get<ApiResponse<AlertItem[]>>('/general/alerts', {
-                headers: { Authorization: `Bearer ${useAuth().state.token}` }
-            })
+            const response = await apiService.client.get<ApiResponse<AlertItem[]>>('/general/alerts', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)

@@ -3,8 +3,6 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-
 const props = defineProps({
   series: { type: Array, required: true },
   categories: { type: Array, required: true },

@@ -80,6 +80,3 @@ export interface AlertItem {
     time: string
 }
 
-export type RevenueResponse = ApiResponse<RevenueStats>
-export type IspResponse = ApiResponse<IspStats>
-export type NusaWorkResponse = ApiResponse<NusaWorkStats>
