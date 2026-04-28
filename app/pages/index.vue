@@ -17,7 +17,7 @@
           <span v-if="revenue" :class="['inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold', revenue.trend === 'up' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500']">
             <ArrowUp v-if="revenue.trend === 'up'" class="h-3 w-3" />
             <ArrowDown v-else class="h-3 w-3" />
-            {{ Math.abs(revenue.revenuePercentage).toFixed(1) }}%
+            {{ Math.abs(revenue.revenuePercentage).toFixed(2) }}%
           </span>
           <Skeleton v-else customClass="h-6 w-12 rounded-full" />
         </div>
@@ -63,7 +63,7 @@
           <span v-if="nusawork" :class="['inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold', nusawork.trend === 'up' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500']">
             <ArrowUp v-if="nusawork.trend === 'up'" class="h-3 w-3" />
             <ArrowDown v-else class="h-3 w-3" />
-            {{ Math.abs(nusawork.usersPercentage).toFixed(1) }}%
+            {{ Math.abs(nusawork.usersPercentage).toFixed(2) }}%
           </span>
           <Skeleton v-else customClass="h-6 w-12 rounded-full" />
         </div>
@@ -96,7 +96,7 @@
         </div>
         <div class="text-xs text-gray-500">Home Connect Aktif</div>
         <div class="mt-2 border-t border-gray-200 pt-2 text-xs text-gray-400 min-h-[1rem]">
-          <span v-if="homeconnect">Konversi paid: {{ formatNumber(homeconnect.paid) }} ({{ homeconnect.paidPercentage.toFixed(1) }}%)</span>
+          <span v-if="homeconnect">Konversi paid: {{ formatNumber(homeconnect.paid) }} ({{ homeconnect.paidPercentage.toFixed(2) }}%)</span>
           <Skeleton v-else customClass="h-4 w-full" />
         </div>
       </article>
@@ -161,7 +161,7 @@
               <span class="h-2 w-2 flex-shrink-0 rounded" :style="{ backgroundColor: colorFromName(item.name) }"></span>
               <span class="flex-1 truncate text-gray-600" :title="item.name">{{ item.name }}</span>
               <span class="flex-shrink-0 font-mono font-semibold tabular-nums">{{ formatCompact(item.revenue) }}</span>
-              <span class="flex-shrink-0 w-10 text-right font-mono text-gray-400">{{ item.percentage.toFixed(1) }}%</span>
+              <span class="flex-shrink-0 w-10 text-right font-mono text-gray-400">{{ item.percentage.toFixed(2) }}%</span>
             </div>
             <div v-if="!revenueMonthly.length" class="space-y-2 py-2">
               <Skeleton v-for="i in 5" :key="i" customClass="h-4 w-full" />
@@ -186,7 +186,7 @@
         </div>
         <div class="divide-y divide-gray-200">
           <div class="flex items-center justify-between gap-3 py-3 text-xs">
-            <span class="min-w-0 text-gray-500">Churn Rate ISP</span>
+            <span class="min-w-0 text-gray-500">Churn Rate</span>
             <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100">
               <div class="h-full rounded-sm bg-red-500" :style="{ width: health ? Math.min(health.churnRate * 1000, 100) + '%' : '0%' }"></div>
             </div>
@@ -206,7 +206,7 @@
             <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100">
               <div class="h-full rounded-sm bg-violet-500" :style="{ width: health ? (health.collectionRate * 100) + '%' : '0%' }"></div>
             </div>
-            <span v-if="health" class="font-mono font-semibold text-violet-500">{{ (health.collectionRate * 100).toFixed(1) + '%' }}</span>
+            <span v-if="health" class="font-mono font-semibold text-violet-500">{{ (health.collectionRate * 100).toFixed(2) + '%' }}</span>
             <Skeleton v-else customClass="h-4 w-12" />
           </div>
           <div class="flex items-center justify-between gap-3 py-3 text-xs">
@@ -214,7 +214,7 @@
             <div class="h-1 flex-1 overflow-hidden rounded-sm bg-gray-100">
               <div class="h-full rounded-sm bg-yellow-400" :style="{ width: health ? (health.tickets * 100) + '%' : '0%' }"></div>
             </div>
-            <span v-if="health" class="font-mono font-semibold text-yellow-500">{{ (health.tickets * 100).toFixed(1) + '%' }}</span>
+            <span v-if="health" class="font-mono font-semibold text-yellow-500">{{ (health.tickets * 100).toFixed(2) + '%' }}</span>
             <Skeleton v-else customClass="h-4 w-12" />
           </div>
           <div class="flex items-center justify-between gap-3 py-3 text-xs">
@@ -392,7 +392,7 @@ const chartData = computed(() => {
     name,
     data: revenuePeriod.value.map(p => {
       const item = p.data.find(d => d.name === name)
-      return item ? +(item.revenue / 1_000_000).toFixed(0) : 0
+      return item ? +(item.revenue / 1_000_000).toFixed(2) : 0
     })
   }))
 

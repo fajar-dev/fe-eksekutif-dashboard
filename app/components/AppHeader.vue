@@ -20,7 +20,10 @@
         </div>
       </div>
       <div class="flex items-center gap-3 min-w-0">
-        <span class="rounded-full bg-gray-100 px-3 py-1.5 text-xs text-gray-500 font-mono truncate">Mar 2026 · Q1</span>
+        <span v-if="period" class="rounded-full bg-gray-100 px-3 py-1.5 text-xs text-gray-500 font-mono truncate">
+          {{ period.monthName.substring(0, 3) }} {{ period.year }} · Q{{ period.quarter }}
+        </span>
+        <Skeleton v-else customClass="h-7 w-24 rounded-full" />
         <button type="button" class="relative inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-sm bg-gray-100 text-gray-500 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500">
           <Bell class="h-5 w-5" />
           <span class="absolute right-1.5 top-1.5 h-2 w-2 rounded-full border-2 border-white bg-red-500"></span>
@@ -34,4 +37,15 @@
 import { 
   Bell
 } from 'lucide-vue-next'
+import { additionalService } from '~/services/additional-service'
+import type { PeriodBreakdown } from '~/types/additional'
+
+const period = ref<PeriodBreakdown | null>(null)
+
+onMounted(async () => {
+  const res = await additionalService.getPeriod()
+  if (res.success) {
+    period.value = res.data
+  }
+})
 </script>

@@ -4,15 +4,15 @@ export function formatNumber(value: number, options?: Intl.NumberFormatOptions):
 
 export function formatCompact(value: number): string {
   if (value >= 1_000_000_000) {
-    return (value / 1_000_000_000).toLocaleString('id-ID', { maximumFractionDigits: 2 }) + 'M'
+    return (value / 1_000_000_000).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + 'M'
   }
   if (value >= 1_000_000) {
-    return (value / 1_000_000).toLocaleString('id-ID', { maximumFractionDigits: 1 }) + 'jt'
+    return (value / 1_000_000).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + 'jt'
   }
   if (value >= 1_000) {
-    return (value / 1_000).toLocaleString('id-ID', { maximumFractionDigits: 1 }) + 'rb'
+    return (value / 1_000).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + 'rb'
   }
-  return value.toLocaleString('id-ID')
+  return value.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 
 export function formatCurrency(value: number, compact: boolean = true): string {
