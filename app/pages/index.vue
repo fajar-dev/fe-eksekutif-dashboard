@@ -27,7 +27,7 @@
         </div>
         <div class="text-xs text-gray-500">Revenue Bulan Ini (Rp)</div>
         <div class="mt-2 border-t border-gray-200 pt-2 text-xs text-gray-400 min-h-[1rem]">
-          <span v-if="revenue">Bulan lalu: {{ formatCompact(revenue.revenuePrevious) }} · Pertumbuhan {{ formatCompact(revenue.revenueGrowth) }}</span>
+          <span v-if="revenue">Bulan lalu: Rp {{ formatCompact(revenue.revenuePrevious) }} · Pertumbuhan Rp {{ formatCompact(revenue.revenueGrowth) }}</span>
           <Skeleton v-else customClass="h-4 w-full" />
         </div>
       </article>
@@ -287,8 +287,8 @@
         <div class="space-y-2">
           <template v-if="alerts.length > 0">
             <div
-              v-for="alert in alerts"
-              :key="alert.id"
+              v-for="(alert, i) in alerts"
+              :key="i"
               :class="['rounded-sm p-3', {
                 'bg-red-50': alert.type === 'danger',
                 'bg-yellow-50': alert.type === 'warning',
@@ -304,7 +304,6 @@
                 <div class="space-y-0.5">
                   <div class="font-semibold text-gray-900">{{ alert.title }}</div>
                   <p class="text-xs text-gray-500">{{ alert.content }}</p>
-                  <span class="text-xs text-gray-400 font-mono">{{ alert.time }}</span>
                 </div>
               </div>
             </div>

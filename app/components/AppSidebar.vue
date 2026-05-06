@@ -40,7 +40,7 @@
                     : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
                 ]"
               >
-                <span :class="['h-5 w-5 flex-shrink-0 rounded-md', isActive(item.href) ? 'bg-primary-600' : 'bg-gray-100']"></span>
+                <component :is="item.icon" :class="['h-4 w-4 flex-shrink-0', isActive(item.href) ? 'text-primary-600' : 'text-gray-400']" />
                 {{ item.label }}
               </NuxtLink>
             </li>
@@ -84,7 +84,7 @@
 </template>
 
 <script setup lang="ts">
-import { LogOut } from 'lucide-vue-next'
+import { LogOut, LayoutDashboard, TrendingUp, Users, Wifi, Briefcase, Globe, Home, Monitor, UserCog, FileText } from 'lucide-vue-next'
 
 const isSidebarOpen = useState('sidebar-open', () => false)
 
@@ -96,26 +96,26 @@ const navGroups = [
   {
     label: 'Overview',
     items: [
-      { label: 'Dashboard', href: '/' },
-      { label: 'Revenue', href: '/revenue' },
-      { label: 'Pelanggan', href: '/pelanggan' },
+      { label: 'Dashboard', href: '/', icon: LayoutDashboard },
+      { label: 'Revenue', href: '/revenue', icon: TrendingUp },
+      { label: 'Pelanggan', href: '/pelanggan', icon: Users },
     ],
   },
   {
     label: 'Bisnis',
     items: [
-      { label: 'ISP & Network', href: '/isp' },
-      { label: 'NusaWork HRIS', href: '/nusawork' },
-      { label: 'Google Workspace', href: '/gws' },
-      { label: 'Home Connect', href: '/home-connect' },
+      { label: 'ISP & Network', href: '/isp', icon: Wifi },
+      { label: 'NusaWork HRIS', href: '/nusawork', icon: Briefcase },
+      { label: 'Google Workspace', href: '/gws', icon: Globe },
+      { label: 'Home Connect', href: '/home-connect', icon: Home },
     ],
   },
   {
     label: 'Operasional',
     items: [
-      { label: 'NOC Monitor', href: '/noc' },
-      { label: 'Tim & SDM', href: '/sdm' },
-      { label: 'Laporan', href: '/laporan' },
+      { label: 'NOC Monitor', href: '/noc', icon: Monitor },
+      { label: 'Tim & SDM', href: '/sdm', icon: UserCog },
+      { label: 'Laporan', href: '/laporan', icon: FileText },
     ],
   },
 ]
