@@ -27,7 +27,7 @@
         </div>
         <div class="text-xs text-gray-500">Revenue Bulan Ini (Rp)</div>
         <div class="mt-2 border-t border-gray-200 pt-2 text-xs text-gray-400 min-h-[1rem]">
-          <span v-if="revenue">Bulan lalu: {{ formatCompact(revenue.revenuePrevious) }} · Pertumbuhan {{ revenue.revenuePercentage > 0 ? '+' : '' }}{{ revenue.revenuePercentage.toFixed(2) }}%</span>
+          <span v-if="revenue">Bulan lalu: {{ formatCompact(revenue.revenuePrevious) }} · Pertumbuhan {{ formatCompact(revenue.revenueGrowth) }}</span>
           <Skeleton v-else customClass="h-4 w-full" />
         </div>
       </article>

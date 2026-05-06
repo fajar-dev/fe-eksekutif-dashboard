@@ -105,12 +105,15 @@ const toast = useToast()
 const googleLoading = ref(false)
 
 const handleOnSuccess = async (response: any) => {
-  await authService.google(response.code);
-  toast.success({
-      message: 'Login success! Welcome.',
-    })
+  try {
+    await authService.google(response.code);
+    toast.success({
+        message: 'Login success! Welcome.',
+      })
     navigateTo('/')
-  googleLoading.value = false
+  } finally {
+    googleLoading.value = false
+  }
 };
 
 const handleOnError = () => {

@@ -1,6 +1,14 @@
 <template>
+  <div
+    v-if="isSidebarOpen"
+    class="fixed inset-0 z-30 bg-black/30 lg:hidden"
+    @click="isSidebarOpen = false"
+  />
   <aside
-    class="fixed left-0 top-0 z-40 flex h-screen w-60 -translate-x-full flex-col border-r border-gray-200 bg-white transition-transform lg:translate-x-0"
+    :class="[
+      'fixed left-0 top-0 z-40 flex h-screen w-60 flex-col border-r border-gray-200 bg-white transition-transform lg:translate-x-0',
+      isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+    ]"
     aria-label="Sidebar"
   >
     <div class="flex-1 overflow-y-auto pt-7">
@@ -77,6 +85,8 @@
 
 <script setup lang="ts">
 import { LogOut } from 'lucide-vue-next'
+
+const isSidebarOpen = useState('sidebar-open', () => false)
 
 const { state: authState, service: authService } = useAuth()
 const toast = useToast()

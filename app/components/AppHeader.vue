@@ -5,9 +5,7 @@
         <button
           type="button"
           class="inline-flex items-center rounded-lg border border-gray-200 bg-white p-2 text-sm text-gray-500 shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 lg:hidden"
-          data-drawer-target="default-sidebar"
-          data-drawer-show="default-sidebar"
-          aria-controls="default-sidebar"
+          @click="isSidebarOpen = !isSidebarOpen"
         >
           <span class="sr-only">Buka sidebar</span>
           <svg class="h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -39,6 +37,8 @@ import {
 } from 'lucide-vue-next'
 import { additionalService } from '~/services/additional-service'
 import type { PeriodBreakdown } from '~/types/additional'
+
+const isSidebarOpen = useState('sidebar-open', () => false)
 
 const period = ref<PeriodBreakdown | null>(null)
 
