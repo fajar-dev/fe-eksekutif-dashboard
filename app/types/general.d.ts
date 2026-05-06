@@ -73,10 +73,8 @@ export interface NocStatus {
 }
 
 export interface AlertItem {
-    id: number
     type: 'danger' | 'warning' | 'info' | 'success'
     title: string
     content: string
-    time: string
 }
 
