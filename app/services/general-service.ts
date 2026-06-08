@@ -10,7 +10,7 @@ export class GeneralService {
 
     async getRevenueStats(): Promise<ApiResponse<RevenueStats>> {
         try {
-            const response = await apiService.client.get<ApiResponse<RevenueStats>>('/general/revenue', this.authHeaders)
+            const response = await apiService.client.get<ApiResponse<RevenueStats>>('direksi/general/revenue', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)
@@ -19,7 +19,7 @@ export class GeneralService {
 
     async getIspStats(): Promise<ApiResponse<IspStats>> {
         try {
-            const response = await apiService.client.get<ApiResponse<IspStats>>('/general/isp', this.authHeaders)
+            const response = await apiService.client.get<ApiResponse<IspStats>>('direksi/general/isp', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)
@@ -28,7 +28,7 @@ export class GeneralService {
 
     async getNusaWorkStats(): Promise<ApiResponse<NusaWorkStats>> {
         try {
-            const response = await apiService.client.get<ApiResponse<NusaWorkStats>>('/general/nusawork', this.authHeaders)
+            const response = await apiService.client.get<ApiResponse<NusaWorkStats>>('direksi/general/nusawork', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)
@@ -37,7 +37,7 @@ export class GeneralService {
 
     async getHomeConnectStats(): Promise<ApiResponse<HomeConnectStats>> {
         try {
-            const response = await apiService.client.get<ApiResponse<HomeConnectStats>>('/general/homeconnect', this.authHeaders)
+            const response = await apiService.client.get<ApiResponse<HomeConnectStats>>('direksi/general/homeconnect', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)
@@ -46,7 +46,7 @@ export class GeneralService {
 
     async getRevenuePeriod(): Promise<ApiResponse<RevenuePeriodItem[]>> {
         try {
-            const response = await apiService.client.get<ApiResponse<RevenuePeriodItem[]>>('/general/revenue/period', this.authHeaders)
+            const response = await apiService.client.get<ApiResponse<RevenuePeriodItem[]>>('direksi/general/revenue/period', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)
@@ -55,7 +55,7 @@ export class GeneralService {
 
     async getRevenueMonthly(): Promise<ApiResponse<RevenueMonthlyItem[]>> {
         try {
-            const response = await apiService.client.get<ApiResponse<RevenueMonthlyItem[]>>('/general/revenue/monthly', this.authHeaders)
+            const response = await apiService.client.get<ApiResponse<RevenueMonthlyItem[]>>('direksi/general/revenue/monthly', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)
@@ -64,7 +64,7 @@ export class GeneralService {
 
     async getHealthStats(): Promise<ApiResponse<HealthStats>> {
         try {
-            const response = await apiService.client.get<ApiResponse<HealthStats>>('/general/health', this.authHeaders)
+            const response = await apiService.client.get<ApiResponse<HealthStats>>('direksi/general/health', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)
@@ -73,7 +73,7 @@ export class GeneralService {
 
     async getNocStatus(): Promise<ApiResponse<NocStatus>> {
         try {
-            const response = await apiService.client.get<ApiResponse<NocStatus>>('/general/noc', this.authHeaders)
+            const response = await apiService.client.get<ApiResponse<NocStatus>>('direksi/general/noc', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)
@@ -82,7 +82,7 @@ export class GeneralService {
 
     async getAlerts(): Promise<ApiResponse<AlertItem[]>> {
         try {
-            const response = await apiService.client.get<ApiResponse<AlertItem[]>>('/general/alerts', this.authHeaders)
+            const response = await apiService.client.get<ApiResponse<AlertItem[]>>('direksi/general/alerts', this.authHeaders)
             return response.data
         } catch (error: any) {
             return handleServiceError(error)
